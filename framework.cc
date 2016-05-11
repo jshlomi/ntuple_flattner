@@ -35,8 +35,6 @@
 #include "TMVA/Reader.h"
 #include "Linkdef.h"
 
-//testing 1 2 3
-
 using namespace TMVA;
 using namespace std;
 
@@ -266,7 +264,7 @@ int main(int argc, char* argv[]) {
   vector<float>* bH_y   = new vector<float>;
   vector<float>* bH_z   = new vector<float>;
   vector<float>* cH_x   = new vector<float>;
-  vector<float>* cH_x   = new vector<float>;
+  vector<float>* cH_y   = new vector<float>;
   vector<float>* cH_z   = new vector<float>;
 
   chain->SetBranchAddress("eventnb", &eventnb);
@@ -436,7 +434,12 @@ int main(int argc, char* argv[]) {
   float MaxTrkRapidity_jf_path, MinTrkRapidity_jf_path, AvgTrkRapidity_jf_path;
   float vtx1_MaxTrkRapidity_jf_path, vtx1_MinTrkRapidity_jf_path, vtx1_AvgTrkRapidity_jf_path;
   float vtx2_MaxTrkRapidity_jf_path, vtx2_MinTrkRapidity_jf_path, vtx2_AvgTrkRapidity_jf_path;
-    
+  
+  //truth stuff and event info
+
+  float jet_bH_pt, jet_cH_pt, jet_bH_Lxy, jet_cH_Lxy;
+  float jet_bH_PV_to_decay_L, jet_cH_PV_to_decay_L;
+
   if(verbose) cout << "evt_i\tjet_i\ttruth\tsv1_llr" << endl << endl;
   if((verbose) && (n_entries_chain > 0)) n_entries_chain = 100;
 
@@ -462,6 +465,14 @@ int main(int argc, char* argv[]) {
   t1->Branch("jetid",&jetid,"jetid/I");
   t1->Branch("jet_number",&jet_number,"jet_number/I");
   
+  t1->Branch("eventnb",&eventnb,"eventnb/I");
+  t1->Branch("jet_bH_pt",&jet_bH_pt,"jet_bH_pt/F");
+  t1->Branch("jet_cH_pt",&jet_cH_pt,"jet_cH_pt/F");
+  t1->Branch("jet_bH_Lxy",&jet_bH_Lxy,"jet_bH_Lxy/F");
+  t1->Branch("jet_cH_Lxy",&jet_cH_Lxy,"jet_cH_Lxy/F");
+  t1->Branch("jet_bH_PV_to_decay_L",&jet_bH_PV_to_decay_L,"jet_bH_PV_to_decay_L/F");
+  t1->Branch("jet_cH_PV_to_decay_L",&jet_cH_PV_to_decay_L,"jet_cH_PV_to_decay_L/F");
+
   t1->Branch("jet_pt_jet_i",&jet_pt_jet_i,"jet_pt_jet_i/F");
   t1->Branch("jet_eta_jet_i",&jet_eta_jet_i,"jet_eta_jet_i/F");
   t1->Branch("jet_pt_orig_jet_i",&jet_pt_orig_jet_i,"jet_pt_orig_jet_i/F");
@@ -875,10 +886,7 @@ int main(int argc, char* argv[]) {
     double weight = 1; //default weight.
 
     weight = mcwg;
-     
-
-    if(njets > 0){ //probably not needed since for-loop over jets (below) would not run if njets=0.
-        
+          
       //choosing which TRUTH flavour tag is being used:
       //////////////////////////////////////////////////////////////// 
       //vector<int>* jet_truthflav = jet_truthflav_parton;   // Parton truth flav
@@ -911,10 +919,41 @@ int main(int argc, char* argv[]) {
         && ( jet_eta_jet_i < max_eta_cut )
 	&& ( jet_eta_jet_i > (-1)*max_eta_cut )
         && ( jet_JVT_jet_i > 0.59 || jet_pt_jet_i >60000.0 || fabs(jet_eta_jet_i)>2.4)  
-        && (OverlapR==0 || jet_aliveAfterOR_jet_i == 1) ){ 
-        //JVT>0.59 for jets with pT < 60 GeV and |eta| < 2.4
-      // && ( jet_JVT_jet_i > 0.641 || jet_pt_jet_i >50000.0 || fabs(jet_eta_jet_i)>2.4)  
-        //load the rest of the variables  
+        && (OverlapR==0 || jet_aliveAfterOR_jet_i == 1) ){
+
+
+        //truth Information of c and b hadrons
+        if(truthflav_jet_i == 4 ){
+          jet_bH_pt = -1
+          jet_bH_Lxy  = -1
+          jet_bH_PV_to_decay_L = -1
+          
+          jet_cH_pt            = (*cH_pt)[jet_i];
+          jet_cH_Lxy           = (*cH_Lxy)[jet_i];
+          jet_cH_PV_to_decay_L = ((*cH_x)[jet_i]-truth_PVx)*((*cH_x)[jet_i]-truth_PVx)+((*cH_y)[jet_i]-truth_PVy)*((*cH_y)[jet_i]-truth_PVy)+((*cH_z)[jet_i]-truth_PVz)*((*cH_z)[jet_i]-truth_PVz);
+
+        }else if(truthflav_jet_i == 5){
+          
+          jet_cH_pt = -1
+          jet_cH_Lxy  = -1
+          jet_cH_PV_to_decay_L = -1
+
+          jet_bH_pt            = (*bH_pt)[jet_i];
+          jet_bH_Lxy           = (*bH_Lxy)[jet_i];
+          jet_bH_PV_to_decay_L = ((*bH_x)[jet_i]-truth_PVx)*((*bH_x)[jet_i]-truth_PVx)+((*bH_y)[jet_i]-truth_PVy)*((*bH_y)[jet_i]-truth_PVy)+((*bH_z)[jet_i]-truth_PVz)*((*bH_z)[jet_i]-truth_PVz);
+          
+        }else{
+          
+          jet_bH_pt = -1
+          jet_cH_pt = -1
+          jet_bH_Lxy  = -1
+          jet_cH_Lxy  = -1
+          jet_bH_PV_to_decay_L = -1
+          jet_cH_PV_to_decay_L = -1
+
+        } //end of truth
+
+       
         jet_mv2m_pu_jet_i = (*jet_mv2m_pu)[jet_i];
         jet_mv2m_pc_jet_i = (*jet_mv2m_pc)[jet_i];
         jet_mv2m_pb_jet_i = (*jet_mv2m_pb)[jet_i];
@@ -1362,7 +1401,7 @@ if(DumpRawData && number_of_Readers > 1){
     
         }//if cuts end
       }  //jet loop end
-    } // if njets > 0 ends
+    
     evt_done++;
   } //event loop end
  
