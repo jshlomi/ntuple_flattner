@@ -279,7 +279,7 @@ int main(int argc, char* argv[]) {
   chain->SetBranchAddress("bH_y",&bH_y  ); 
   chain->SetBranchAddress("bH_z",&bH_z  ); 
   chain->SetBranchAddress("cH_x",&cH_x  ); 
-  chain->SetBranchAddress("cH_x",&cH_x  ); 
+  chain->SetBranchAddress("cH_y",&cH_y  ); 
   chain->SetBranchAddress("cH_z",&cH_z  ); 
 
   //mv2m output
@@ -930,7 +930,11 @@ int main(int argc, char* argv[]) {
           
           jet_cH_pt            = (*cH_pt)[jet_i];
           jet_cH_Lxy           = (*cH_Lxy)[jet_i];
-          jet_cH_PV_to_decay_L = ((*cH_x)[jet_i]-truth_PVx)*((*cH_x)[jet_i]-truth_PVx)+((*cH_y)[jet_i]-truth_PVy)*((*cH_y)[jet_i]-truth_PVy)+((*cH_z)[jet_i]-truth_PVz)*((*cH_z)[jet_i]-truth_PVz);
+          float x = (*cH_x)[jet_i];
+          float y = (*cH_y)[jet_i];
+          float z = (*cH_z)[jet_i];
+
+          jet_cH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
 
         }else if(truthflav_jet_i == 5){
           
@@ -940,7 +944,11 @@ int main(int argc, char* argv[]) {
 
           jet_bH_pt            = (*bH_pt)[jet_i];
           jet_bH_Lxy           = (*bH_Lxy)[jet_i];
-          jet_bH_PV_to_decay_L = ((*bH_x)[jet_i]-truth_PVx)*((*bH_x)[jet_i]-truth_PVx)+((*bH_y)[jet_i]-truth_PVy)*((*bH_y)[jet_i]-truth_PVy)+((*bH_z)[jet_i]-truth_PVz)*((*bH_z)[jet_i]-truth_PVz);
+          float x = (*bH_x)[jet_i];
+          float y = (*bH_y)[jet_i];
+          float z = (*bH_z)[jet_i];
+
+          jet_bH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
           
         }else{
           
