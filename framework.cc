@@ -271,16 +271,16 @@ int main(int argc, char* argv[]) {
   chain->SetBranchAddress("truth_PVx", &truth_PVx);
   chain->SetBranchAddress("truth_PVy", &truth_PVz);
   chain->SetBranchAddress("truth_PVz", &truth_PVz);
-  chain->SetBranchAddress("bH_pt  ",&bH_pt ); 
-  chain->SetBranchAddress("cH_pt  ",&cH_pt ); 
-  chain->SetBranchAddress("bH_Lxy ",&bH_Lxy); 
-  chain->SetBranchAddress("cH_Lxy ",&cH_Lxy); 
-  chain->SetBranchAddress("bH_x   ",&bH_x  ); 
-  chain->SetBranchAddress("bH_y   ",&bH_y  ); 
-  chain->SetBranchAddress("bH_z   ",&bH_z  ); 
-  chain->SetBranchAddress("cH_x   ",&cH_x  ); 
-  chain->SetBranchAddress("cH_x   ",&cH_x  ); 
-  chain->SetBranchAddress("cH_z   ",&cH_z  ); 
+  chain->SetBranchAddress("bH_pt",&bH_pt ); 
+  chain->SetBranchAddress("cH_pt",&cH_pt ); 
+  chain->SetBranchAddress("bH_Lxy",&bH_Lxy); 
+  chain->SetBranchAddress("cH_Lxy",&cH_Lxy); 
+  chain->SetBranchAddress("bH_x",&bH_x  ); 
+  chain->SetBranchAddress("bH_y",&bH_y  ); 
+  chain->SetBranchAddress("bH_z",&bH_z  ); 
+  chain->SetBranchAddress("cH_x",&cH_x  ); 
+  chain->SetBranchAddress("cH_x",&cH_x  ); 
+  chain->SetBranchAddress("cH_z",&cH_z  ); 
 
   //mv2m output
   vector<double>* jet_mv2m_pu = new vector<double>;
@@ -924,9 +924,9 @@ int main(int argc, char* argv[]) {
 
         //truth Information of c and b hadrons
         if(truthflav_jet_i == 4 ){
-          jet_bH_pt = -1
-          jet_bH_Lxy  = -1
-          jet_bH_PV_to_decay_L = -1
+          jet_bH_pt = -1;
+          jet_bH_Lxy  = -1;
+          jet_bH_PV_to_decay_L = -1;
           
           jet_cH_pt            = (*cH_pt)[jet_i];
           jet_cH_Lxy           = (*cH_Lxy)[jet_i];
@@ -934,9 +934,9 @@ int main(int argc, char* argv[]) {
 
         }else if(truthflav_jet_i == 5){
           
-          jet_cH_pt = -1
-          jet_cH_Lxy  = -1
-          jet_cH_PV_to_decay_L = -1
+          jet_cH_pt = -1;
+          jet_cH_Lxy  = -1;
+          jet_cH_PV_to_decay_L = -1;
 
           jet_bH_pt            = (*bH_pt)[jet_i];
           jet_bH_Lxy           = (*bH_Lxy)[jet_i];
@@ -944,12 +944,12 @@ int main(int argc, char* argv[]) {
           
         }else{
           
-          jet_bH_pt = -1
-          jet_cH_pt = -1
-          jet_bH_Lxy  = -1
-          jet_cH_Lxy  = -1
-          jet_bH_PV_to_decay_L = -1
-          jet_cH_PV_to_decay_L = -1
+          jet_bH_pt = -1;
+          jet_cH_pt = -1;
+          jet_bH_Lxy  = -1;
+          jet_cH_Lxy  = -1;
+          jet_bH_PV_to_decay_L = -1;
+          jet_cH_PV_to_decay_L = -1;
 
         } //end of truth
 
