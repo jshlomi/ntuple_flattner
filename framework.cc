@@ -1034,15 +1034,16 @@ int main(int argc, char* argv[]) {
 
         nBHadr = (*jet_nBHadr)[jet_i];
         nCHadr = (*jet_nCHadr)[jet_i];
-        try{
-        nGhostBHadrFromParent = (*jet_nGhostBHadrFromParent)[jet_i];
-        nGhostCHadrFromParent = (*jet_nGhostCHadrFromParent)[jet_i];
-        nGhostCHadrFromParentNotFromB = (*jet_nGhostCHadrFromParentNotFromB)[jet_i];   
-      } catch(){
+        
+
+        // nGhostBHadrFromParent = (*jet_nGhostBHadrFromParent)[jet_i];
+        // nGhostCHadrFromParent = (*jet_nGhostCHadrFromParent)[jet_i];
+        // nGhostCHadrFromParentNotFromB = (*jet_nGhostCHadrFromParentNotFromB)[jet_i];   
+
         nGhostBHadrFromParent = -1;
         nGhostCHadrFromParent = -1;
         nGhostCHadrFromParentNotFromB = -1;
-      }
+      
 
         jet_bH_pt  = (*bH_pt)[jet_i];
         jet_bH_eta = (*bH_eta)[jet_i];
