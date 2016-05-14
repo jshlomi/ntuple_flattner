@@ -1032,40 +1032,40 @@ int main(int argc, char* argv[]) {
 
         //truth Information of c and b hadrons
 
-        nBHadr
-        nCHadr
-        nGhostBHadrFromParent
-        nGhostCHadrFromParent
-        nGhostCHadrFromParentNotFromB
+        nBHadr = (*jet_nBHadr)[jet_i];
+        nCHadr = (*jet_nCHadr)[jet_i];
+        nGhostBHadrFromParent = (*jet_nGhostBHadrFromParent)[jet_i];
+        nGhostCHadrFromParent = (*jet_nGhostCHadrFromParent)[jet_i];
+        nGhostCHadrFromParentNotFromB = (*jet_nGhostCHadrFromParentNotFromB)[jet_i];   
 
         jet_bH_pt  = (*bH_pt)[jet_i];
-        jet_bH_eta
-        jet_bH_phi
+        jet_bH_eta = (*bH_eta)[jet_i];
+        jet_bH_phi = (*bH_phi)[jet_i];
         jet_bH_Lxy = (*bH_Lxy)[jet_i];
-        jet_bH_dRjet
-        jet_bH_nBtracks
-        jet_bH_nCtracks
-        jet_bH_x = (*bH_x)[jet_i];
-        jet_bH_y = (*bH_y)[jet_i];
-        jet_bH_z = (*bH_z)[jet_i];
-
-        jet_cH_pt            = (*cH_pt)[jet_i];
-        jet_cH_eta
-        jet_cH_phi
-        jet_cH_Lxy           = (*cH_Lxy)[jet_i];
-        jet_cH_dRjet
-        jet_cH_nCtracks
-
+        jet_bH_dRjet = (*bH_dRjet)[jet_i];
+        jet_bH_nBtracks = (*bH_nBtracks)[jet_i];
+        jet_bH_nCtracks = (*bH_nCtracks)[jet_i];
+        
+        jet_bH_x   = (*bH_x)[jet_i];
+        jet_bH_y   = (*bH_y)[jet_i];
+        jet_bH_z   = (*bH_z)[jet_i];
+         
+        jet_cH_pt  = (*cH_pt)[jet_i];
+        jet_cH_eta = (*cH_eta)[jet_i];
+        jet_cH_phi = (*cH_phi)[jet_i];
+        jet_cH_Lxy = (*cH_Lxy)[jet_i];
+        jet_cH_dRjet = (*cH_dRjet)[jet_i];
+        jet_cH_nCtracks = (*cH_nCtracks)[jet_i];
+         
         jet_cH_x = (*cH_x)[jet_i];
-        jet_cH_y = (*cH_y)[jet_i];
-        jet_cH_z = (*cH_z)[jet_i];
+        jet_cH_y  = (*cH_y)[jet_i];
+        jet_cH_z  = (*cH_z)[jet_i];
 
-        jet_bH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
-        jet_cH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
+        jet_bH_PV_to_decay_L = (jet_bH_x-truth_PVx)*(jet_bH_x-truth_PVx)+ (jet_bH_y-truth_PVy)*(jet_bH_y-truth_PVy)+ (jet_bH_z-truth_PVx)*(jet_bH_z-truth_PVx);
+        jet_cH_PV_to_decay_L = (jet_cH_x-truth_PVx)*(jet_cH_x-truth_PVx)+ (jet_cH_y-truth_PVy)*(jet_cH_y-truth_PVy)+ (jet_cH_z-truth_PVx)*(jet_cH_z-truth_PVx);
     
          //end of truth
-
-       
+               
         jet_mv2m_pu_jet_i = (*jet_mv2m_pu)[jet_i];
         jet_mv2m_pc_jet_i = (*jet_mv2m_pc)[jet_i];
         jet_mv2m_pb_jet_i = (*jet_mv2m_pb)[jet_i];
