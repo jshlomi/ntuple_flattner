@@ -254,33 +254,75 @@ int main(int argc, char* argv[]) {
   // cH_dRjet  : vector<float>
   // cH_nCtracks : vector<int>
 
+  // jet_nBHadr : vector<int>
+  // jet_nCHadr : vector<int> 
+  // jet_nGhostBHadrFromParent : vector<int>
+  // jet_nGhostCHadrFromParent : vector<int>
+  // jet_nGhostCHadrFromParentNotFromB : vector<int>
+
   Int_t eventnb;
   double truth_PVx, truth_PVy, truth_PVz;
-  vector<float>* bH_pt  = new vector<float>;
-  vector<float>* cH_pt  = new vector<float>;
-  vector<float>* bH_Lxy = new vector<float>;
-  vector<float>* cH_Lxy = new vector<float>;
-  vector<float>* bH_x   = new vector<float>;
-  vector<float>* bH_y   = new vector<float>;
-  vector<float>* bH_z   = new vector<float>;
-  vector<float>* cH_x   = new vector<float>;
-  vector<float>* cH_y   = new vector<float>;
-  vector<float>* cH_z   = new vector<float>;
-
+ 
   chain->SetBranchAddress("eventnb", &eventnb);
   chain->SetBranchAddress("truth_PVx", &truth_PVx);
   chain->SetBranchAddress("truth_PVy", &truth_PVz);
   chain->SetBranchAddress("truth_PVz", &truth_PVz);
+
+  vector<int>* jet_nBHadr = new vector<int>;
+  vector<int>* jet_nCHadr = new vector<int>;
+  vector<int>* jet_nGhostBHadrFromParent = new vector<int>;
+  vector<int>* jet_nGhostCHadrFromParent = new vector<int>;
+  vector<int>* jet_nGhostCHadrFromParentNotFromB = new vector<int>;
+  
+  chain->SetBranchAddress("jet_nBHadr",&jet_nBHadr );
+  chain->SetBranchAddress("jet_nCHadr",&jet_nCHadr ); 
+  chain->SetBranchAddress("jet_nGhostBHadrFromParent",&jet_nGhostBHadrFromParent ); 
+  chain->SetBranchAddress("jet_nGhostCHadrFromParent",&jet_nGhostCHadrFromParent ); 
+  chain->SetBranchAddress("jet_nGhostCHadrFromParentNotFromB",&jet_nGhostCHadrFromParentNotFromB );
+
+  vector<float>* bH_pt  = new vector<float>;
+  vector<float>* bH_eta = new vector<float>;
+  vector<float>* bH_phi = new vector<float>;
+  vector<float>* bH_Lxy = new vector<float>;
+  vector<float>* bH_dRjet = new vector<float>;
+  vector<int>* bH_nBtracks = new vector<int>;
+  vector<int>* bH_nCtracks = new vector<int>;
   chain->SetBranchAddress("bH_pt",&bH_pt ); 
-  chain->SetBranchAddress("cH_pt",&cH_pt ); 
+  chain->SetBranchAddress("bH_eta",&bH_eta); 
+  chain->SetBranchAddress("bH_phi",&bH_phi); 
   chain->SetBranchAddress("bH_Lxy",&bH_Lxy); 
-  chain->SetBranchAddress("cH_Lxy",&cH_Lxy); 
+  chain->SetBranchAddress("bH_dRjet",&bH_dRjet); 
+  chain->SetBranchAddress("bH_nBtracks",&bH_nBtracks); 
+  chain->SetBranchAddress("bH_nCtracks",&bH_nCtracks); 
+
+  vector<float>* bH_x   = new vector<float>;
+  vector<float>* bH_y   = new vector<float>;
+  vector<float>* bH_z   = new vector<float>;
   chain->SetBranchAddress("bH_x",&bH_x  ); 
   chain->SetBranchAddress("bH_y",&bH_y  ); 
-  chain->SetBranchAddress("bH_z",&bH_z  ); 
+  chain->SetBranchAddress("bH_z",&bH_z  );
+
+  vector<float>* cH_pt  = new vector<float>;
+  vector<float>* cH_eta = new vector<float>;
+  vector<float>* cH_phi = new vector<float>;
+  vector<float>* cH_Lxy = new vector<float>;
+  vector<float>* cH_dRjet = new vector<float>;
+  vector<int>* cH_nCtracks = new vector<int>;
+  
+  chain->SetBranchAddress("cH_pt",&cH_pt ); 
+  chain->SetBranchAddress("cH_eta",&cH_eta); 
+  chain->SetBranchAddress("cH_phi",&cH_phi); 
+  chain->SetBranchAddress("cH_Lxy",&cH_Lxy); 
+  chain->SetBranchAddress("cH_dRjet",&cH_dRjet); 
+  chain->SetBranchAddress("cH_nCtracks",&cH_nCtracks); 
+ 
+  vector<float>* cH_x   = new vector<float>;
+  vector<float>* cH_y   = new vector<float>;
+  vector<float>* cH_z   = new vector<float>;
   chain->SetBranchAddress("cH_x",&cH_x  ); 
   chain->SetBranchAddress("cH_y",&cH_y  ); 
   chain->SetBranchAddress("cH_z",&cH_z  ); 
+
 
   //mv2m output
   vector<double>* jet_mv2m_pu = new vector<double>;
@@ -299,10 +341,10 @@ int main(int argc, char* argv[]) {
   double jet_mv2c100_jet_i;
 
 
-  //mv2cl100 output
-  // vector<double>* jet_mv2cl100 = new vector<double>;
-  // chain->SetBranchAddress("jet_mv2cl100", &jet_mv2cl100);
-  // double jet_mv2cl100_jet_i;
+  // mv2cl100 output
+  vector<double>* jet_mv2cl100 = new vector<double>;
+  chain->SetBranchAddress("jet_mv2cl100", &jet_mv2cl100);
+  double jet_mv2cl100_jet_i;
   
   //mv2c20 output
   vector<double>* jet_mv2c20 = new vector<double>;  
@@ -437,8 +479,35 @@ int main(int argc, char* argv[]) {
   
   //truth stuff and event info
 
-  float jet_bH_pt, jet_cH_pt, jet_bH_Lxy, jet_cH_Lxy;
+  int nBHadr;
+  int nCHadr;
+  int nGhostBHadrFromParent;
+  int nGhostCHadrFromParent;
+  int nGhostCHadrFromParentNotFromB;
+
+  float jet_bH_pt;
+  float jet_bH_eta;
+  float jet_bH_phi;
+  float jet_bH_Lxy ;
+  float jet_bH_dRjet;
+  int jet_bH_nBtracks;
+  int jet_bH_nCtracks;
+  float jet_bH_x ;
+  float jet_bH_y ;
+  float jet_bH_z ;
+
+  float jet_cH_pt;
+  float jet_cH_eta;
+  float jet_cH_phi;
+  float jet_cH_Lxy;
+  float jet_cH_dRjet;
+  int jet_cH_nCtracks;
+
+  float jet_cH_x;;
+  float jet_cH_y;;
+  float jet_cH_z;;
   float jet_bH_PV_to_decay_L, jet_cH_PV_to_decay_L;
+  // end of truth variables
 
   if(verbose) cout << "evt_i\tjet_i\ttruth\tsv1_llr" << endl << endl;
   if((verbose) && (n_entries_chain > 0)) n_entries_chain = 100;
@@ -460,16 +529,47 @@ int main(int argc, char* argv[]) {
   //
   Double_t ln_pcpu, ln_pcpb, ln_pbpu, mv2c20, mv2c100,mv2cl100, mv2c00;
    
-
   //define the branches
   t1->Branch("jetid",&jetid,"jetid/I");
   t1->Branch("jet_number",&jet_number,"jet_number/I");
   
   t1->Branch("eventnb",&eventnb,"eventnb/I");
+  t1->Branch("pv_x",&pv_x,"pv_x/D"); //reconstructed PV
+  t1->Branch("pv_y",&pv_y,"pv_y/D");
+  t1->Branch("pv_z",&pv_z,"pv_z/D");
+  t1->Branch("truth_PVx",&truth_PVx,"truth_PVx/D"); // truth PV
+  t1->Branch("truth_PVy",&truth_PVy,"truth_PVy/D");
+  t1->Branch("truth_PVz",&truth_PVz,"truth_PVz/D");
+
+  t1->Branch("nBHadr",&nBHadr,"nBHadr/I");
+  t1->Branch("nCHadr",&nCHadr,"nCHadr/I");
+  t1->Branch("nGhostBHadrFromParent",&nGhostBHadrFromParent,"nGhostBHadrFromParent/I");
+  t1->Branch("nGhostCHadrFromParent",&nGhostCHadrFromParent,"nGhostCHadrFromParent/I");
+  t1->Branch("nGhostCHadrFromParentNotFromB",&nGhostCHadrFromParentNotFromB,"nGhostCHadrFromParentNotFromB/I");
+
   t1->Branch("jet_bH_pt",&jet_bH_pt,"jet_bH_pt/F");
-  t1->Branch("jet_cH_pt",&jet_cH_pt,"jet_cH_pt/F");
+  t1->Branch("jet_bH_eta",&jet_bH_eta,"jet_bH_eta/F");
+  t1->Branch("jet_bH_phi",&jet_bH_phi,"jet_bH_phi/F");
   t1->Branch("jet_bH_Lxy",&jet_bH_Lxy,"jet_bH_Lxy/F");
+  t1->Branch("jet_bH_dRjet",&jet_bH_dRjet,"jet_bH_dRjet/F");
+  t1->Branch("jet_bH_nBtracks",&jet_bH_nBtracks,"jet_bH_nBtracks/I");
+  t1->Branch("jet_bH_nCtracks",&jet_bH_nCtracks,"jet_bH_nCtracks/I");
+
+  t1->Branch("jet_bH_x",&jet_bH_x,"jet_bH_x/F");
+  t1->Branch("jet_bH_y",&jet_bH_y,"jet_bH_y/F");
+  t1->Branch("jet_bH_z",&jet_bH_z,"jet_bH_z/F");
+
+  t1->Branch("jet_cH_pt",&jet_cH_pt,"jet_cH_pt/F");
+  t1->Branch("jet_cH_eta",&jet_cH_eta,"jet_cH_eta/F");
+  t1->Branch("jet_cH_phi",&jet_cH_phi,"jet_cH_phi/F");
   t1->Branch("jet_cH_Lxy",&jet_cH_Lxy,"jet_cH_Lxy/F");
+  t1->Branch("jet_cH_dRjet",&jet_cH_dRjet,"jet_cH_dRjet/F");
+  t1->Branch("jet_cH_nCtracks",&jet_cH_nCtracks,"jet_cH_nCtracks/I");
+  
+  t1->Branch("jet_cH_x",&jet_cH_x,"jet_cH_x/F");
+  t1->Branch("jet_cH_y",&jet_cH_y,"jet_cH_y/F");
+  t1->Branch("jet_cH_z",&jet_cH_z,"jet_cH_z/F");
+
   t1->Branch("jet_bH_PV_to_decay_L",&jet_bH_PV_to_decay_L,"jet_bH_PV_to_decay_L/F");
   t1->Branch("jet_cH_PV_to_decay_L",&jet_cH_PV_to_decay_L,"jet_cH_PV_to_decay_L/F");
 
@@ -558,6 +658,14 @@ int main(int argc, char* argv[]) {
   t1->Branch("jf_efrc"  ,&jf_efrc,"jf_efrc/F");
   t1->Branch("jf_dR"    ,&jf_dR,"jf_dR/F");
   t1->Branch("jf_sig3"  ,&jf_sig3,"jf_sig3/F");
+
+  // float jf_n2tv, jf_nvtx, jf_nvtx1t;
+  // float jf_ntrkv, jf_mass, jf_efrc, jf_sig3, jf_deta, jf_dphi, jf_dR, jf_phi, jf_theta;
+
+  t1->Branch("jf_deta"  ,&jf_deta,"jf_deta/F");
+  t1->Branch("jf_dphi"  ,&jf_dphi,"jf_dphi/F");
+  t1->Branch("jf_phi"  ,&jf_phi,"jf_phi/F");
+  t1->Branch("jf_theta"  ,&jf_theta,"jf_theta/F");
 
   Double_t mv2new_1, mv2new_2, mv2new_3, mv2new_4, mv2new_5, mv2new_6, mv2new_7; 
   Double_t mv2new_8, mv2new_9, mv2new_10, mv2new_11, mv2new_12, mv2new_13, mv2new_14;
@@ -923,43 +1031,39 @@ int main(int argc, char* argv[]) {
 
 
         //truth Information of c and b hadrons
-        if(truthflav_jet_i == 4 ){
-          jet_bH_pt = -1;
-          jet_bH_Lxy  = -1;
-          jet_bH_PV_to_decay_L = -1;
-          
-          jet_cH_pt            = (*cH_pt)[jet_i];
-          jet_cH_Lxy           = (*cH_Lxy)[jet_i];
-          float x = (*cH_x)[jet_i];
-          float y = (*cH_y)[jet_i];
-          float z = (*cH_z)[jet_i];
 
-          jet_cH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
+        nBHadr
+        nCHadr
+        nGhostBHadrFromParent
+        nGhostCHadrFromParent
+        nGhostCHadrFromParentNotFromB
 
-        }else if(truthflav_jet_i == 5){
-          
-          jet_cH_pt = -1;
-          jet_cH_Lxy  = -1;
-          jet_cH_PV_to_decay_L = -1;
+        jet_bH_pt  = (*bH_pt)[jet_i];
+        jet_bH_eta
+        jet_bH_phi
+        jet_bH_Lxy = (*bH_Lxy)[jet_i];
+        jet_bH_dRjet
+        jet_bH_nBtracks
+        jet_bH_nCtracks
+        jet_bH_x = (*bH_x)[jet_i];
+        jet_bH_y = (*bH_y)[jet_i];
+        jet_bH_z = (*bH_z)[jet_i];
 
-          jet_bH_pt            = (*bH_pt)[jet_i];
-          jet_bH_Lxy           = (*bH_Lxy)[jet_i];
-          float x = (*bH_x)[jet_i];
-          float y = (*bH_y)[jet_i];
-          float z = (*bH_z)[jet_i];
+        jet_cH_pt            = (*cH_pt)[jet_i];
+        jet_cH_eta
+        jet_cH_phi
+        jet_cH_Lxy           = (*cH_Lxy)[jet_i];
+        jet_cH_dRjet
+        jet_cH_nCtracks
 
-          jet_bH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
-          
-        }else{
-          
-          jet_bH_pt = -1;
-          jet_cH_pt = -1;
-          jet_bH_Lxy  = -1;
-          jet_cH_Lxy  = -1;
-          jet_bH_PV_to_decay_L = -1;
-          jet_cH_PV_to_decay_L = -1;
+        jet_cH_x = (*cH_x)[jet_i];
+        jet_cH_y = (*cH_y)[jet_i];
+        jet_cH_z = (*cH_z)[jet_i];
 
-        } //end of truth
+        jet_bH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
+        jet_cH_PV_to_decay_L = (x-truth_PVx)*(x-truth_PVx)+ (y-truth_PVy)*(y-truth_PVy)+ (z-truth_PVx)*(z-truth_PVx);
+    
+         //end of truth
 
        
         jet_mv2m_pu_jet_i = (*jet_mv2m_pu)[jet_i];
@@ -967,7 +1071,7 @@ int main(int argc, char* argv[]) {
         jet_mv2m_pb_jet_i = (*jet_mv2m_pb)[jet_i];
         jet_mv2c20_jet_i=(*jet_mv2c20)[jet_i];
         jet_mv2c100_jet_i=(*jet_mv2c100)[jet_i];
-        //jet_mv2cl100_jet_i=(*jet_mv2cl100)[jet_i];
+        jet_mv2cl100_jet_i=(*jet_mv2cl100)[jet_i];
 	jet_mv2c00_jet_i=(*jet_mv2c00)[jet_i];
       
       
@@ -1316,7 +1420,7 @@ int main(int argc, char* argv[]) {
         ln_pbpu = log(jet_mv2m_pb_jet_i/jet_mv2m_pu_jet_i);
         mv2c20 = jet_mv2c20_jet_i;
         mv2c100 = jet_mv2c100_jet_i;
-        //mv2cl100 = jet_mv2cl100_jet_i;
+        mv2cl100 = jet_mv2cl100_jet_i;
 	mv2c00 = jet_mv2c00_jet_i;
         
         //adjust maximum values and defaults
