@@ -265,7 +265,7 @@ int main(int argc, char* argv[]) {
  
   chain->SetBranchAddress("eventnb", &eventnb);
   chain->SetBranchAddress("truth_PVx", &truth_PVx);
-  chain->SetBranchAddress("truth_PVy", &truth_PVz);
+  chain->SetBranchAddress("truth_PVy", &truth_PVy);
   chain->SetBranchAddress("truth_PVz", &truth_PVz);
 
   vector<int>* jet_nBHadr = new vector<int>;
