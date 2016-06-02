@@ -28,7 +28,12 @@ def partition(lst, n):
 divided_files = partition(files_to_eval,n_parts)
 
 #create N text files listing the files, save them inside QuickEvals/FileLists
-
+if not(os.path.exists('FileLists')):
+  print 'creating directory : FileLists'
+  os.mkdir('FileLists')
+if not(os.path.exists('Parts')):
+  print 'creating directory : Parts'
+  os.mkdir('Parts')
 os.chdir('FileLists')
 
 txt_file_list = []
